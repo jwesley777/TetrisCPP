@@ -3,6 +3,84 @@
 
 #include "pch.h"
 #include <iostream>
+#include <Windows.h>
+#include <vector>
+
+void cgoto(int x, int y)
+{
+	COORD c = { x,y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+
+class Brick
+{
+public:
+	int x;
+	int y;
+	
+public:
+	Brick(int x, int y) : x(x), y(y) {}
+	void Print()
+	{
+		cgoto(x, y);
+		std::cout << 'o';
+	}
+};
+
+class Block
+{
+public:
+	virtual void Print() 
+	{
+		for (Brick b: map) 
+		{
+			b.Print();
+		}
+	}
+	virtual void MoveLeft()
+	{
+		int dx = -1;
+		for (Brick b : map)
+		{
+			b.x += dx;
+		}
+	}
+	virtual void MoveRight()
+	{
+		int dx = +1;
+		for (Brick b : map)
+		{
+			b.x += dx;
+		}
+	}
+	virtual void MoveDown()
+	{
+		int dy = -1;
+		for (Brick b : map)
+		{
+			b.y += dy;
+		}
+	}
+protected:
+	std::vector<Brick> map;
+};
+
+class Block1 : public Block
+{
+
+};
+
+class Block2 : public Block
+{
+
+};
+
+
+///////////////
+const int mapwidth = 10;
+const int mapheight = 20;
+const int mapsize = mapwidth * mapheight;
 
 int main()
 {
